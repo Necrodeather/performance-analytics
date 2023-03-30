@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "performance-analytics"
+version = "0.1.0"
+description = ""
+authors = ["necrodeather <Morbid6dead@gmail.com>"]
+readme = "README.md"
+packages = [{include = "performance_analytics"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.95.0"
+uvicorn = "^0.21.1"
+pydantic = {extras = ["dotenv"], version = "^1.10.7"}
+sqlalchemy = {extras = ["asyncpg"], version = "^2.0.7"}
+alembic = "^1.10.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
