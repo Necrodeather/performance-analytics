@@ -1,6 +1,6 @@
 from dependency_injector import containers, providers
 
-from src.performance_analytics.private.repository import AnalyticRepository
+from src.performance_analytics.private.repositories import AnalyticRepository
 from src.performance_analytics.service import AnalyticService
 
 
@@ -20,4 +20,3 @@ class AnalyticContainer(containers.DeclarativeContainer):
         AnalyticService,
         repository=repository,
     )
-
