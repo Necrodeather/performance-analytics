@@ -1,0 +1,33 @@
+version: '3.3'
+
+services:
+  web:
+    container_name: app
+    hostname: app
+    restart: always
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile
+    command: sh -c "poetry run start"
+    ports:
+      - ${SERVER_PORT}:8000
+    env_file:
+      - .env
+    volumes:
+      - .:/home/app
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:11.1-alpine
+    command: postgres -c 'max_connections=100'
+    hostname: postgres
+    ports:
+      - ${PORT_DB}:${POSTGRES_PORT}
+    env_file:
+      - .env
+    volumes:
+      - "db:/var/lib/postgresql/data/"
+
+volumes:
+  db:

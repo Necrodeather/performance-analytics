@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["necrodeather <Morbid6dead@gmail.com>"]
 readme = "README.md"
-packages = [{include = "performance_analytics"}]
+packages = [{include = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -27,6 +27,10 @@ sqlalchemy-stubs = "^0.4"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+start = "src.main:start"
+
 
 [tool.autoflake]
 check = false

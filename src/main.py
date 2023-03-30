@@ -18,9 +18,12 @@ def create_app() -> FastAPI:
 app = create_app()
 
 
-if __name__ == "__main__":
+def start():
     uvicorn.run(
         app=app,
         host=settings.SERVER_HOST,
         port=settings.SERVER_PORT,
     )
+
+if __name__ == "__main__":
+    start()
