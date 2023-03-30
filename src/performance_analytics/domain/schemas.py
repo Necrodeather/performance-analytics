@@ -13,18 +13,18 @@ class Service(AbstractModel):
 
     @validator("path", pre=True)
     def validate_path(cls, value: str) -> str:
-        if '/' != value[0]:
-            raise ValueError()
+        if "/" != value[0]:
+            raise ValueError("This path is specified incorrectly")
         return value
 
 
 class ServiceCreate(Service):
-    service_name: str = Field(alias='serviceName')
-    response_time: PositiveInt = Field(alias='responseTimeMs')
+    service_name: str = Field(alias="serviceName")
+    response_time: PositiveInt = Field(alias="responseTimeMs")
 
 
 class ServiceStatistic(Service):
     average: PositiveInt
-    min_time: PositiveInt = Field(alias='min')
-    max_time: PositiveInt = Field(alias='max')
+    min_time: PositiveInt = Field(alias="min")
+    max_time: PositiveInt = Field(alias="max")
     p99: Optional[PositiveInt]

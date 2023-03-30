@@ -1,10 +1,9 @@
 import asyncio
 from logging.config import fileConfig
 
+from alembic import context
 from sqlalchemy import engine_from_config, Connection
 from sqlalchemy import pool
-
-from alembic import context
 from sqlalchemy.ext.asyncio import AsyncEngine
 
 from src.performance_analytics.private.models import Base

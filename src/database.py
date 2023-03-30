@@ -6,8 +6,8 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 
 
 class Database:
-    def __init__(self, db_url: str):
-        self._engine = create_async_engine(db_url, echo=True, future=True)
+    def __init__(self, db_url: str, debug: bool):
+        self._engine = create_async_engine(url=db_url, echo=debug, future=debug)
         self._session_factory = orm.scoped_session(
             orm.sessionmaker(
                 autocommit=False,

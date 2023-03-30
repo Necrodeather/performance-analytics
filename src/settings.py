@@ -5,6 +5,7 @@ from pydantic import BaseSettings, Field, PostgresDsn, validator
 
 
 class Settings(BaseSettings):
+    DEBUG: bool = Field(default=False)
     SERVER_HOST: str = Field(default="localhost")
     SERVER_PORT: int = Field(default=8000)
     POSTGRES_SCHEME: str
@@ -16,10 +17,10 @@ class Settings(BaseSettings):
     DATABASE_URI: Optional[PostgresDsn]
 
     @validator("DATABASE_URI")
-    def generate_dsn(cls, value, values) -> str:
+    def generate_dsn(cls, value: str, values: dict) -> str:
         if isinstance(value, str):
             return value
-        dsn = PostgresDsn.build(
+        return PostgresDsn.build(
             scheme=values.get("POSTGRES_SCHEME"),
             user=values.get("POSTGRES_USER"),
             password=values.get("POSTGRES_PASSWORD"),
@@ -27,7 +28,6 @@ class Settings(BaseSettings):
             port=values.get("POSTGRES_PORT"),
             path=f'/{values.get("POSTGRES_DB") or "postgres"}',
         )
-        return dsn
 
     class Config:
         env_file = ".env"

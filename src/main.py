@@ -1,13 +1,14 @@
 import uvicorn
-from fastapi import FastAPI
 
 from src.container import AppContainer
-from src.performance_analytics.public import analytic_router
+from src.performance_analytics.public.http.endpoints import analytic_router
 from src.settings import settings
+
+from fastapi import FastAPI
 
 
 def create_app() -> FastAPI:
-    app = FastAPI()
+    app = FastAPI(debug=settings.DEBUG)
     app.container = AppContainer()
     app.include_router(analytic_router)
 
