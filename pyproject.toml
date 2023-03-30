@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["necrodeather <Morbid6dead@gmail.com>"]
 readme = "README.md"
-packages = [{include = "performance_analytics"}]
+packages = [{include = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -13,8 +13,57 @@ uvicorn = "^0.21.1"
 pydantic = {extras = ["dotenv"], version = "^1.10.7"}
 sqlalchemy = {extras = ["asyncpg"], version = "^2.0.7"}
 alembic = "^1.10.2"
+dependency-injector = "^4.41.0"
+asyncpg = "^0.27.0"
 
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.1.1"
+pre-commit = "^3.2.1"
+flake8 = "^6.0.0"
+black = "^23.3.0"
+sqlalchemy-stubs = "^0.4"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+start = "src.main:start"
+
+
+[tool.autoflake]
+check = false
+imports = ["fastapi", "requests", "pydantic"]
+
+[tool.black]
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+line_length = 100
+target-version = ['py39']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+skip_glob = ["migrations"]
+skip = ["migrations"]
+known_fastapi = ["fastapi", "pydantic"]
+default_section = "THIRDPARTY"
+sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER", "FASTAPI"]
