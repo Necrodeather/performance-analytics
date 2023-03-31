@@ -1,10 +1,9 @@
 import uvicorn
+from fastapi import FastAPI
 
 from src.container import AppContainer
 from src.performance_analytics.public.http.endpoints import analytic_router
 from src.settings import settings
-
-from fastapi import FastAPI
 
 
 def create_app() -> FastAPI:
@@ -24,6 +23,7 @@ def start():
         host=settings.SERVER_HOST,
         port=settings.SERVER_PORT,
     )
+
 
 if __name__ == "__main__":
     start()

@@ -1,8 +1,10 @@
-from src.performance_analytics.domain.schemas import ServiceCreate, ServiceStatistic
-from src.performance_analytics.private.models import models
-from src.performance_analytics.private.repositories import repository
+from typing import Optional
 
 from fastapi import HTTPException
+
+from src.performance_analytics.domain.schemas import ServiceCreate, ServiceStatistic
+from src.performance_analytics.private import repository
+from src.performance_analytics.private.models import PathModel, ServiceModel
 
 
 class AnalyticService:
@@ -16,7 +18,7 @@ class AnalyticService:
 
         return data
 
-    async def __check_or_create_service(self, service_name: str) -> models.ServiceModel:
+    async def __check_or_create_service(self, service_name: str) -> ServiceModel:
         result = await self.repository.get_service(service_name)
 
         if not result:
@@ -24,7 +26,7 @@ class AnalyticService:
 
         return result
 
-    async def __check_or_create_path(self, service_id: int, path: str) -> models.PathModel:
+    async def __check_or_create_path(self, service_id: int, path: str) -> PathModel:
         result = await self.repository.get_path(service_id, path)
 
         if not result:
@@ -32,20 +34,23 @@ class AnalyticService:
 
         return result
 
-    async def get_metrics(self, service_name: str) -> list[ServiceStatistic]:
+    async def get_metrics(self, service_name: str) -> list[Optional[ServiceStatistic]]:
         result = []
         data = await self.repository.get_service(service_name)
 
         if not data:
             raise HTTPException(status_code=404, detail="Service is not found")
 
+        if not data.path:
+            return []
+
         for path in data.path:
-            path_result = await self.generate_path(path)
+            path_result = await self.generate_metrics(path)
             result.append(path_result)
 
         return result
 
-    async def generate_path(self, path: models.PathModel) -> ServiceStatistic:
+    async def generate_metrics(self, path: PathModel) -> ServiceStatistic:
         result = {
             "path": path.path_url,
             "average": await self.repository.get_statistic_metric("AVG", path.id),

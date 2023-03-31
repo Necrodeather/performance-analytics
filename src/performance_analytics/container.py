@@ -1,6 +1,6 @@
 from dependency_injector import containers, providers
 
-from src.performance_analytics.private.repositories import repository
+from src.performance_analytics.private import repository
 from src.performance_analytics.service import AnalyticService
 
 

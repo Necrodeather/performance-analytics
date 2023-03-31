@@ -2,15 +2,15 @@ version: '3.3'
 
 services:
   web:
-    container_name: app
-    hostname: app
+    container_name: web
+    hostname: web
     restart: always
     build:
       context: .
       dockerfile: deploy/Dockerfile
     command: sh -c "poetry run start"
     ports:
-      - ${SERVER_PORT}:8000
+      - ${HTTP_PORT}:${SERVER_PORT}
     env_file:
       - .env
     volumes:

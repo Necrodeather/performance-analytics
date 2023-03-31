@@ -1,9 +1,10 @@
+from typing import Optional
+
 from dependency_injector.wiring import Provide, inject
+from fastapi import APIRouter, Depends
 from starlette import status
 
 from src.performance_analytics.domain.schemas import ServiceCreate, ServiceStatistic
-
-from fastapi import APIRouter, Depends
 
 analytic_router = APIRouter(tags=["Performance Analytics"])
 
@@ -22,5 +23,5 @@ async def add_new_metrics(
 async def get_metrics(
     service_name: str,
     service=Depends(Provide["service"]),
-) -> list[ServiceStatistic]:
+) -> list[Optional[ServiceStatistic]]:
     return await service.get_metrics(service_name)
